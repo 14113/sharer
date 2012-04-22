@@ -1,24 +1,30 @@
 require 'spec_helper'
 
 describe Sharer do
+  
+  before(:all) do
+      @site = Sharer::Site.new("google.com")
+  end
+  
   it "find count of likes on facebook" do
-      Sharer.facebook_likes("google.com").should be_a(Integer)
+      @site.facebook_likes.should be_a(Integer)
     end
     
     it "find count of likes on twitter" do
-      Sharer.twitter_button("google.com").should be_a(Integer)
+      @site.twitter_button.should be_a(Integer)
     end
 
     it "find count of likes on twitter" do
-      Sharer.linked_in_share("google.com").should be_a(Integer)
+      @site.linked_in_share.should be_a(Integer)
     end
     
     it "find count of shareing in facebook,twitter and linkedin" do
-      Sharer.find("google.com").should be_a(Hash)
+      @site.find.should be_a(Hash)
     end
     
     it "find count of likes on facebook by invalid url" do
-      Sharer.facebook_likes("ada:example/com").should eq(nil)
+      @site = Sharer::Site.new("ada:example/com")
+      @site.facebook_likes.should eq(nil)
     end
     
 end

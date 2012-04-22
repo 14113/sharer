@@ -17,8 +17,9 @@ http://github.com/14113/Sharer
 
 and cloned with:
 
+```ruby
 git clone git://github.com/14113/sharer.git
-	
+```	
 	
 ## Usage
 
