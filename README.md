@@ -13,11 +13,11 @@ gem "sharer"
 
 Sharer's Git repo is available on GitHub, which can be browsed at:
 
-	    http://github.com/14113/Sharer
+http://github.com/14113/Sharer
 
 and cloned with:
 
-	    git clone git://github.com/14113/sharer.git
+git clone git://github.com/14113/sharer.git
 	
 	
 ## Usage
