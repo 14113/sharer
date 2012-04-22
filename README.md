@@ -29,7 +29,7 @@ Call Sharer in an Model and pass the url of the website.
 
 ```ruby
 site = Sharer::Site.new("google.com")
-cumber_of_likes = site.facebook_likes
+number_of_likes = site.facebook_likes
 ```
 
 This will find count of shareing in facebook, twitter abd linkedin.
