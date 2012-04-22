@@ -1,4 +1,4 @@
-# Sharer
+# Sharer [![Build Status](https://secure.travis-ci.org/14113/sharer.png?branch=master)](http://travis-ci.org/14113/sharer)
 
 If your application needs to count the number of shared, this gem can help you.
 
