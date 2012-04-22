@@ -13,7 +13,9 @@ gem "sharer"
 
 Sharer's Git repo is available on GitHub, which can be browsed at:
 
+```ruby
 http://github.com/14113/Sharer
+```	
 
 and cloned with:
 
@@ -26,7 +28,8 @@ git clone git://github.com/14113/sharer.git
 Call Sharer in an Model and pass the url of the website.
 
 ```ruby
-result = Sharer.find("google.com")
+site = Sharer::Site.new("ada:example/com")
+cumber_of_likes = site.facebook_likes
 ```
 
 This will find count of shareing in facebook, twitter abd linkedin.
