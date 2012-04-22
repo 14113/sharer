@@ -36,7 +36,7 @@ module Sharer
     end
     
     # Find shareing by url
-    def find
+    def find_all
       return nil unless valid_url?
       
       data = {}

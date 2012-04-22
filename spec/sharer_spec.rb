@@ -22,7 +22,7 @@ describe Sharer do
     end
     
     it "find count of shareing in facebook,twitter and linkedin" do
-      @site.find.should be_a(Hash)
+      @site.find_all.should be_a(Hash)
     end
     
     it "find count of likes on facebook by invalid url" do
