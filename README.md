@@ -28,7 +28,7 @@ git clone git://github.com/14113/sharer.git
 Call Sharer in an Model and pass the url of the website.
 
 ```ruby
-site = Sharer::Site.new("ada:example/com")
+site = Sharer::Site.new("google.com")
 cumber_of_likes = site.facebook_likes
 ```
 
