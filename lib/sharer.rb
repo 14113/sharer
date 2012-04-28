@@ -44,6 +44,14 @@ module Sharer
       content(path).match(/\"count\":([0-9]*),/)[1].to_i
     end
     
+    # Find the number of diggs
+    def diggs
+      return nil unless valid_url?
+      url = @url.gsub("http://www.","")
+      path = "http://widgets.digg.com/buttons/count?url=#{url}"
+      content(path).match(/\"diggs\": ([0-9]*),/)[1].to_i
+    end
+    
     # Find shareing by url
     def find_all
       return nil unless valid_url?
@@ -65,6 +73,10 @@ module Sharer
 
       threads << Thread.new do
         data["linked_in_shared"] = linked_in_share
+      end
+      
+      threads << Thread.new do
+        data["diggs"] = diggs
       end
 
       threads.each {|t| t.join }

@@ -26,6 +26,11 @@ describe Sharer do
       @site.facebook_shares.should > 0
     end
     
+    it "find count of diggs" do
+      @site.diggs.should be_a(Integer)
+      @site.diggs.should > 0
+    end
+    
     it "find count of shareing in facebook,twitter and linkedin" do
       @site.find_all.should be_a(Hash)
     end
