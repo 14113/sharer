@@ -10,6 +10,7 @@ module Sharer
     
     def initialize url
       @url = url
+      add_url_protocol
     end 
        
     # Find the number of likes by url
@@ -19,6 +20,14 @@ module Sharer
       content = content(path)
       root = REXML::Document.new(content)
       root.elements[1].elements["link_stat/like_count"].text.to_i
+    end
+    
+    # Find the number of shares
+    def facebook_shares
+      return nil unless valid_url?
+      path = "http://graph.facebook.com/?id=#{@url}"
+      content = content(path)
+      content(path).match(/\"shares\":([0-9]*),/)[1].to_i
     end
     
     # Find the number of tweeter buttons by url
@@ -43,15 +52,19 @@ module Sharer
       threads = []
 
       threads << Thread.new do
-        data["facebook"] = facebook_likes
+        data["facebook_likes"] = facebook_likes
+      end
+      
+      threads << Thread.new do
+        data["facebook_shares"] = facebook_shares
       end
 
       threads << Thread.new do
-        data["google"] = self.twitter_button
+        data["twitter_tweets"] = twitter_button
       end
 
       threads << Thread.new do
-        data["twitter"] = self.linked_in_share
+        data["linked_in_shared"] = linked_in_share
       end
 
       threads.each {|t| t.join }
@@ -62,7 +75,9 @@ module Sharer
     private
     # Valid url
     def valid_url?
-      (@url =~ URI::regexp).nil?
+      # TODO: Validation url
+      #(@url =~ URI::regexp).nil?
+      true
     end
     
     # Content by url
@@ -71,6 +86,15 @@ module Sharer
         Net::HTTP.get_response(URI.parse(path)).body
       rescue => exception
         print exception.backtrace.join("\n")
+      end
+    end
+    
+    def add_url_protocol
+      unless @url[/^www./]
+        @url = 'www.' + @url
+      end
+      unless @url[/^http:\/\//]
+        @url = 'http://' + @url
       end
     end
     

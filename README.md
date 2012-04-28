@@ -14,7 +14,7 @@ gem "sharer"
 Sharer's Git repo is available on GitHub, which can be browsed at:
 
 ```ruby
-http://github.com/14113/Sharer
+http://github.com/14113/sharer
 ```	
 
 and cloned with:
