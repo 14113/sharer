@@ -69,25 +69,10 @@ module Sharer
       data = {}
       threads = []
 
-      #TODO: use array and dinamic call
-      threads << Thread.new do
-        data["facebook_likes"] = facebook_likes
-      end
-      
-      threads << Thread.new do
-        data["facebook_shares"] = facebook_shares
-      end
-
-      threads << Thread.new do
-        data["twitter_tweets"] = twitter_button
-      end
-
-      threads << Thread.new do
-        data["linked_in_shared"] = linked_in_share
-      end
-      
-      threads << Thread.new do
-        data["diggs"] = diggs
+      [:facebook_likes,:facebook_shares,:twitter_button,:linked_in_share,:diggs].each do |method|
+        threads << Thread.new do
+          data[method] = send(method)
+        end
       end
 
       threads.each {|t| t.join }
