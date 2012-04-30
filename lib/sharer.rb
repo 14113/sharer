@@ -4,6 +4,15 @@ require "net/https"
 require 'xmlrpc/client'
 require 'rexml/document'
 
+# == Sharer module is gem that detects the number of sharing sites
+#
+# A minimal implementation could be:
+#   site = Sharer::Site.new("google.com")
+#   @result = site.find_all
+#
+# This also provides the methods
+# like +facebook_likes+ or +twitter_shares+
+# and another
 module Sharer
   
   class Site
@@ -13,7 +22,7 @@ module Sharer
       add_url_protocol
     end 
        
-    # Find the number of likes by url
+    # Find the number of facebook likes
     def facebook_likes
       return nil unless valid_url?
       path = "http://api.facebook.com/method/fql.query?query=select%20%20like_count%20from%20link_stat%20where%20url=%22#{@url}%22"
@@ -22,7 +31,7 @@ module Sharer
       root.elements[1].elements["link_stat/like_count"].text.to_i
     end
     
-    # Find the number of shares
+    # Find the number of facebook shares
     def facebook_shares
       return nil unless valid_url?
       path = "http://graph.facebook.com/?id=#{@url}"
@@ -30,14 +39,14 @@ module Sharer
       content(path).match(/\"shares\":([0-9]*),/)[1].to_i
     end
     
-    # Find the number of tweeter buttons by url
+    # Find the number of tweeter buttons
     def twitter_button
       return nil unless valid_url?
       path = "http://urls.api.twitter.com/1/urls/count.json?url=#{@url}"
       content(path).match(/\"count\":([0-9]*),/)[1].to_i
     end
     
-    # Find the number of linkedin shares by url
+    # Find the number of linkedin shares
     def linked_in_share
       return nil unless valid_url?
       path = "http://www.linkedin.com/countserv/count/share?url=#{@url}&callback=myCallback&format=json"
@@ -52,13 +61,15 @@ module Sharer
       content(path).match(/\"diggs\": ([0-9]*),/)[1].to_i
     end
     
-    # Find shareing by url
+    # Returns the hash with all sites.
+    # Method using threads 
     def find_all
       return nil unless valid_url?
       
       data = {}
       threads = []
 
+      #TODO: use array and dinamic call
       threads << Thread.new do
         data["facebook_likes"] = facebook_likes
       end
@@ -101,7 +112,9 @@ module Sharer
       end
     end
     
+    # Edit url
     def add_url_protocol
+      #TODO: use better regex
       unless @url[/^www./]
         @url = 'www.' + @url
       end
