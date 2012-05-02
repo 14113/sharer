@@ -12,7 +12,7 @@ require 'rexml/document'
 #
 # This also provides the methods
 # like +facebook_likes+ or +twitter_shares+
-# and another
+# and another...
 module Sharer
   
   class Site
@@ -68,7 +68,7 @@ module Sharer
       
       data = {}
       threads = []
-
+      #TODO: use object!
       [:facebook_likes,:facebook_shares,:twitter_button,:linked_in_share,:diggs].each do |method|
         threads << Thread.new do
           data[method] = send(method)
