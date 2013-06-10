@@ -14,14 +14,14 @@ require 'rexml/document'
 # like +facebook_likes+ or +twitter_shares+
 # and another...
 module Sharer
-  
+
   class Site
-    
+
     def initialize url
       @url = url
       add_url_protocol
-    end 
-       
+    end
+
     # Find the number of facebook likes
     def facebook_likes
       return nil unless valid_url?
@@ -30,7 +30,7 @@ module Sharer
       root = REXML::Document.new(content)
       root.elements[1].elements["link_stat/like_count"].text.to_i
     end
-    
+
     # Find the number of facebook shares
     def facebook_shares
       return nil unless valid_url?
@@ -38,38 +38,30 @@ module Sharer
       content = content(path)
       content(path).match(/\"shares\":([0-9]*),/)[1].to_i
     end
-    
+
     # Find the number of tweeter buttons
     def twitter_button
       return nil unless valid_url?
       path = "http://urls.api.twitter.com/1/urls/count.json?url=#{@url}"
       content(path).match(/\"count\":([0-9]*),/)[1].to_i
     end
-    
+
     # Find the number of linkedin shares
     def linked_in_share
       return nil unless valid_url?
       path = "http://www.linkedin.com/countserv/count/share?url=#{@url}&callback=myCallback&format=json"
       content(path).match(/\"count\":([0-9]*),/)[1].to_i
     end
-    
-    # Find the number of diggs
-    def diggs
-      return nil unless valid_url?
-      url = @url.gsub("http://www.","")
-      path = "http://widgets.digg.com/buttons/count?url=#{url}"
-      content(path).match(/\"diggs\": ([0-9]*),/)[1].to_i
-    end
-    
+
     # Returns the hash with all sites.
-    # Method using threads 
+    # Method using threads
     def find_all
       return nil unless valid_url?
-      
+
       data = {}
       threads = []
       #TODO: use object!
-      [:facebook_likes,:facebook_shares,:twitter_button,:linked_in_share,:diggs].each do |method|
+      [:facebook_likes,:facebook_shares,:twitter_button,:linked_in_share].each do |method|
         threads << Thread.new do
           data[method] = send(method)
         end
@@ -78,8 +70,8 @@ module Sharer
       threads.each {|t| t.join }
       data
     end
-    
-    
+
+
     private
     # Valid url
     def valid_url?
@@ -87,7 +79,7 @@ module Sharer
       #(@url =~ URI::regexp).nil?
       true
     end
-    
+
     # Content by url
     def content path
       begin
@@ -96,7 +88,7 @@ module Sharer
         print exception.backtrace.join("\n")
       end
     end
-    
+
     # Edit url
     def add_url_protocol
       #TODO: use better regex
@@ -107,6 +99,6 @@ module Sharer
         @url = 'http://' + @url
       end
     end
-    
+
   end
 end

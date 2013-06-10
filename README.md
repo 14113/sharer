@@ -15,14 +15,14 @@ Sharer's Git repo is available on GitHub, which can be browsed at:
 
 ```ruby
 http://github.com/14113/sharer
-```	
+```
 
 and cloned with:
 
 ```ruby
 git clone git://github.com/14113/sharer.git
-```	
-	
+```
+
 ## Usage
 
 Call Sharer in an Model and pass the url of the website.
@@ -30,6 +30,7 @@ Call Sharer in an Model and pass the url of the website.
 ```ruby
 site = Sharer::Site.new("google.com")
 number_of_likes = site.facebook_likes
+number_of_shares = site.facebook_shares
 number_of_tweets_buttons = site.twitter_button
 number_of_linkedin_shares = site.linked_in_share
 

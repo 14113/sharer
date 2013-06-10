@@ -5,3 +5,7 @@
 ## v0.0.3
 
 * change to object
+
+## v0.0.8
+
+* removed digg.com
